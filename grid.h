@@ -24,7 +24,7 @@ class Grid{
         void setColor(int x, int y, int r, int g, int b);
         void change(int x, int y);
 
-    private:
+    protected:
         int width, height, side;
         const sf::Color defaultColor;
         std::vector<Cell> cells;
