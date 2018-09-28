@@ -15,13 +15,13 @@ struct setting{
 };
 
 struct operators{
-    std::vector<sf::Color> colors{sf::Color{255,0,0}, sf::Color{255, 128, 0}, sf::Color{0,255,0}, sf::Color{0, 128, 255}, sf::Color{0, 0, 255}, sf::Color{255, 0 , 128}};
+    std::vector<sf::Color> colors{sf::Color{0,0,0}, sf::Color{0x33, 0x33, 0x33}, sf::Color{0x66,0x66,0x66}, sf::Color{0x99, 0x00, 0x99}, sf::Color{0xcc, 0x00, 0xcc}, sf::Color{0xff, 0x00, 0xff}};
 };
 
 int main(int argc, char** argv){
     try{
         //Initialize settings, if there are enough arguments use each one for width height sideLengthand speed respectively.
-        setting config = {(argc >= 2)? std::stoi(argv[1]): 1920/2, (argc >= 3)? std::stoi(argv[2]): 1080/2-1, (argc >= 4)? std::stoi(argv[3]): 10, (argc >= 5)? std::stoi(argv[4]): 500};
+        setting config = {(argc >= 2)? std::stoi(argv[1]): 1920/2, (argc >= 3)? std::stoi(argv[2]): 1080/2-1, (argc >= 4)? std::stoi(argv[3]): 10, (argc >= 5)? std::stoi(argv[4]): 60};
  
         operators ops;
 
@@ -29,7 +29,7 @@ int main(int argc, char** argv){
         bool resized = true;
 
         //Initialize the Grid of cells based on configs
-        LogicalGrid grid{config.width/config.sideLength, config.height/config.sideLength, config.sideLength};
+        LogicalGrid grid{config.width/config.sideLength, config.height/config.sideLength, config.sideLength, ops.colors, sf::Color{0,0,0}};
 
         //Create window with SFML and set framerate
         sf::RenderWindow window(sf::VideoMode(config.width,config.height), "SFML Project");
@@ -61,6 +61,8 @@ int main(int argc, char** argv){
 
             resized = false;
             window.display();
+            
+            window.clear();
         }
     } catch(const std::exception& e){
         return 1;
