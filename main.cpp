@@ -21,7 +21,7 @@ struct operators{
 int main(int argc, char** argv){
     try{
         //Initialize settings, if there are enough arguments use each one for width height sideLengthand speed respectively.
-        setting config = {(argc >= 2)? std::stoi(argv[1]): 1920/2, (argc >= 3)? std::stoi(argv[2]): 1080/2-1, (argc >= 4)? std::stoi(argv[3]): 1, (argc >= 5)? std::stoi(argv[4]): 500};
+        setting config = {(argc >= 2)? std::stoi(argv[1]): 1920/2, (argc >= 3)? std::stoi(argv[2]): 1080/2-1, (argc >= 4)? std::stoi(argv[3]): 10, (argc >= 5)? std::stoi(argv[4]): 500};
  
         operators ops;
 

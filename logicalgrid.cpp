@@ -13,11 +13,9 @@ int mod(int a, int b){
 LogicalGrid::LogicalGrid(int width, int height, int side, sf::Color defaultColor): Grid{width, height, side, defaultColor} {
     srand(std::time(nullptr));
     newSums.resize(width*height);
-    cells[width+width*height/2].setValue(1);
-    cells[width+1+width*height/2].setValue(1);
-    cells[width+width+1+width*height/2].setValue(1);
-    cells[width+width+2+width*height/2].setValue(1);
-    cells[width+width*2+width*height/2].setValue(1);
+    for(auto& cell: cells){
+        cell.setValue(rand()%2);
+    }
 }
 
 void LogicalGrid::update(){
