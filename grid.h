@@ -23,12 +23,14 @@ class Grid{
         void setColor(int x, int y, sf::Color color);
         void setColor(int x, int y, int r, int g, int b);
         void change(int x, int y);
+        void change(int ind);
 
     protected:
         int width, height, side;
         const sf::Color defaultColor;
         std::vector<Cell> cells;
         std::vector<int> changedCells;
+        std::vector<bool> inChanged;
 };
 
 #endif

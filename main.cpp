@@ -37,6 +37,7 @@ int main(int argc, char** argv){
         
         //Execution loop
         while (window.isOpen()) {
+            window.clear();
             sf::Event event;
             while (window.pollEvent(event))
             {
@@ -46,23 +47,12 @@ int main(int argc, char** argv){
                         resized = true;
             }
 
+            for(int i = 0; i < grid.size(); i++){
+                window.draw(grid.getCell(i));
+            }
+
             grid.update();
-
-            while(!resized && grid.getChangedCellSize() > 0){
-                window.draw(grid.getChangedCell(0));
-                grid.popChangedCell();
-            }
-            
-            if(resized){
-                for(int i = 0; i < grid.size(); i++){
-                    window.draw(grid.getCell(i));
-                }
-            }
-
-            resized = false;
             window.display();
-            
-            window.clear();
         }
     } catch(const std::exception& e){
         return 1;

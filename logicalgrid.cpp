@@ -34,9 +34,6 @@ void LogicalGrid::update(){
     std::fill(newSums.begin(), newSums.end(), 0);
     
     calcSums();
-    for(int i = 0; i < cells.size(); i++){
-        cells[i].setColor(colors[(cells[i].getValue()? 1: 0)*(newSums[i]-1)]);
-    }
 }
 
 void LogicalGrid::calcSums(){
@@ -47,10 +44,11 @@ void LogicalGrid::calcSums(){
             for(const auto ind: surrounding){
                 newSums[ind] += 1;
             }
-
-            changedCells.insert(changedCells.end(), surrounding.begin(), surrounding.end());
-            changedCells.push_back(i);
         }
+    }
+
+    for(int i = 0; i < cells.size(); i++){
+        cells[i].setColor(colors[(cells[i].getValue()? 1: 0)*(newSums[i])]);
     }
 }
 

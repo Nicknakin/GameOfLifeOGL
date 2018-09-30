@@ -2,6 +2,7 @@
 #include <algorithm>
 
 Grid::Grid(int width, int height, int side, sf::Color defaultColor): width{width}, height{height}, side{side}, defaultColor{defaultColor} {
+    inChanged.resize(width*height);
     for(int i = 0; i < width*height; i++){
         cells.push_back(Cell{i%width, i/width, side, side, (float) defaultColor.r, (float) defaultColor.g, (float) defaultColor.b});
     }
@@ -12,6 +13,8 @@ Cell& Grid::getChangedCell(int i){
 }
 
 void Grid::popChangedCell(){
+    if(changedCells[0] != NULL && changedCells[0] > 0 && changedCells[0] < size())
+        inChanged[changedCells[0]] = false;
     changedCells.erase(changedCells.begin(), changedCells.begin()+1);
 }
 
@@ -60,8 +63,15 @@ std::vector<Cell> Grid::operator[](int i){
 }
 
 void Grid::change(int x, int y){
-    if(!changedCells.empty() || !std::count(changedCells.begin(), changedCells.end(), x+y*width)){
+    if(!changedCells.empty() || !inChanged[x+y*width]){
         changedCells.push_back(x+y*width);
+        inChanged[x+y*width] = true;
     }
 }
 
+void Grid::change(int ind){
+    if(changedCells.empty() || !inChanged[ind]){
+        changedCells.push_back(ind);
+        inChanged[ind] = true;
+    }
+}
