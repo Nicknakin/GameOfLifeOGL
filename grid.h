@@ -1,36 +1,38 @@
-#ifndef gridinc
-#define gridinc
+#ifndef gridIncluded
+#define gridIncluded
 
+#include <iterator>
 #include <vector>
-#include <SFML/Graphics.hpp>
-
 #include "cell.h"
+#include "manipulator.h"
 
-class Grid{
-    public:
-        Grid(int width, int height, int side = 1, sf::Color defaultColor = sf::Color(0,0,0));
-        Cell& getCell(int x, int y);
-        Cell& getCell(int oneDIndex);
-        Cell& getChangedCell(int onDIndex);
-        void popChangedCell();
-        int getChangedCellSize();
-        int size();
-        int getWidth();
-        int getHeight();
-        sf::Color getDefaultColor();
-        std::vector<Cell> operator[](int i);
-        std::vector<Cell>& getCells();
-        void setColor(int x, int y, sf::Color color);
-        void setColor(int x, int y, int r, int g, int b);
-        void change(int x, int y);
-        void change(int ind);
+namespace GCA{
+    class Grid {
+        public:
+            //Constructor
+            Grid(int width, int height);
+            
+            //Operator overload to allow for requesting individual cells
+            Cell* operator[](int ind);
 
-    protected:
-        int width, height, side;
-        const sf::Color defaultColor;
-        std::vector<Cell> cells;
-        std::vector<int> changedCells;
-        std::vector<bool> inChanged;
-};
+            //Get and Set methods
+            std::vector<Cell*> getCells();
+            std::vector<Manipulator*> getManipulators();
+            
+            Cell* getCell(int index);
+            Cell* getCell(int y, int x);
 
+            Manipulator* getManipulator(int index);
+            
+            int getWidth();
+            int getHeight();
+            int getSize();
+
+        protected:
+            std::vector<Cell*> cells;
+            std::vector<Manipulator*> manipulators;
+            int width, height, size;
+
+    };
+}
 #endif

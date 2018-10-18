@@ -4,8 +4,8 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "cell.h"
-#include "logicalgrid.h"
+#include "lifecell.h"
+#include "lifegrid.h"
 
 struct setting{
     const int width;
@@ -29,7 +29,7 @@ int main(int argc, char** argv){
         bool resized = true;
 
         //Initialize the Grid of cells based on configs
-        LogicalGrid grid{config.width/config.sideLength, config.height/config.sideLength, config.sideLength, ops.colors, sf::Color{0,0,0}};
+        LifeGrid grid{config.width/config.sideLength, config.height/config.sideLength, config.sideLength, ops.colors, sf::Color{0,0,0}};
 
         //Create window with SFML and set framerate
         sf::RenderWindow window(sf::VideoMode(config.width,config.height), "SFML Project");

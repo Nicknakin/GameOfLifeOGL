@@ -1,29 +1,24 @@
-#ifndef cellInc
-#define cellInc
+#ifndef cellIncluded
+#define cellIncluded
 
-#include <SFML/Graphics.hpp>
-#include <stdio.h>
-#include <string>
+#include <vector>
+namespace GCA{
+    class Cell {
+        public:
+            Cell(int xPosition, int yPosition, int value);
+            Cell(std::vector<int> position, int value);
+            int getValue();
+            bool getActive();
+            std::vector<int> getPosition();
+            void setValue(int val);
+            void setActive(bool act);
+            void setPosition(int x, int y);
+            void setPosition(std::vector<int> pos);
 
-class Cell: public sf::RectangleShape{
-    public:
-        Cell(int x, int y, int width, int height, float r = 255, float g = 255, float b = 255, int value = 0);
-        std::string toString() const;
-        sf::Color getColor();
-        int getR();
-        int getG();
-        int getB();
-        int getValue();
-        void setValue(int val);
-        void setColor(sf::Color color);
-        void setColor(int r, int g, int b);
-        friend std::ostream& operator<<(std::ostream& os, const Cell& cell);
-        
-        float r,g,b;
-
-    private:
-        int x, y, width, height;
-        int value;
-};
-
+        protected:
+            std::vector<int> position;
+            bool active;
+            int value;
+    };
+}
 #endif
