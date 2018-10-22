@@ -1,5 +1,5 @@
 CXX = g++
-oglflags = -lsfml-graphics -lsfml-window -lsfml-system
+oglflags = -lsfml-graphics -lsfml-window -lsfml-system -lpthread
 
 default: cell.o grid.o lifecell.o lifegrid.o main.o
 	$(CXX) -o GameOfLife main.o cell.o grid.o lifecell.o lifegrid.o $(oglflags)

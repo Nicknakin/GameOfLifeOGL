@@ -1,5 +1,6 @@
 #include "lifegrid.h"
 
+#include <thread>
 #include <stdlib.h>
 
 //Utility method only being used because % acts as a remainder operator instead of a modulo operator.
@@ -17,8 +18,19 @@ LifeGrid::LifeGrid(int width, int height, int side, std::vector<sf::Color> color
     for(int i = 0; i < width*height; i++){
         cells.push_back(new LifeCell(i%width, i/width, side, side, defaultColor.r, defaultColor.g, defaultColor.b, rand()%2));
     }
-
-    calcSums();
+    
+    std::vector<std::thread> activeThreads{};
+    unsigned threads = std::thread::hardware_concurrency();
+    if(threads == 0)
+        calcSums(0,cells.size());
+    else{
+        for(int i = 0; i < threads; i++){
+            activeThreads.push_back(std::thread(&LifeGrid::calcSums, this, i/threads*cells.size(), (i+1)/threads*cells.size()));
+        }
+    }
+    for(int i = 0; i < activeThreads.size(); i++){
+        activeThreads[i].join();
+    }
 }
 
 void LifeGrid::update(){
@@ -34,11 +46,22 @@ void LifeGrid::update(){
 
     std::fill(newSums.begin(), newSums.end(), 0);
     
-    calcSums();
+    std::vector<std::thread> activeThreads{};
+    unsigned threads = std::thread::hardware_concurrency();
+    if(threads == 0)
+        calcSums(0,cells.size());
+    else{
+        for(int i = 0; i < threads; i++){
+            activeThreads.push_back(std::thread(&LifeGrid::calcSums, this, i/threads*cells.size(), (i+1)/threads*cells.size()));
+        }
+    }
+    for(int i = 0; i < activeThreads.size(); i++){
+        activeThreads[i].join();
+    }
 }
 
-void LifeGrid::calcSums(){
-    for(int i = 0; i < cells.size(); i++){
+void LifeGrid::calcSums(int begin, int end){
+    for(int i = begin; i < end; i++){
         if(cells[i]->getValue() > 0){
             std::vector<int> surrounding{mod(i-width-1, width*height), mod(i-width, width*height), mod(i-width+1, width*height), mod(i-1, width*height), mod(i+1, width*height), mod(i+width-1, width*height), mod(i+width, width*height), mod(i+width+1, width*height)};
             
@@ -48,7 +71,7 @@ void LifeGrid::calcSums(){
         }
     }
 
-    for(int i = 0; i < cells.size(); i++){
+    for(int i = begin; i < end; i++){
         cells[i]->setColor(colors[(cells[i]->getValue()? 1: 0)*(newSums[i])]);
     }
 }
