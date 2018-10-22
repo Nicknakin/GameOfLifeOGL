@@ -49,9 +49,7 @@ int main(int argc, char** argv){
 
             for(int i = 0; i < grid.getSize(); i++){
                 auto cell = grid.getCell(i);
-                dynamic_cast<LifeCell*> (cell);
-
-                window.draw(cell);
+                window.draw(*cell);
             }
 
             grid.update();

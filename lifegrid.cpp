@@ -15,7 +15,7 @@ LifeGrid::LifeGrid(int width, int height, int side, std::vector<sf::Color> color
     newSums.resize(width*height);
 
     for(int i = 0; i < width*height; i++){
-        cells.push_back(new LifeCell(i%width, i/width, side, side, defaultColor.r, defaultColor.g, defaultColor.b, 0));
+        cells.push_back(new LifeCell(i%width, i/width, side, side, defaultColor.r, defaultColor.g, defaultColor.b, rand()%2));
     }
 
     calcSums();
@@ -53,3 +53,6 @@ void LifeGrid::calcSums(){
     }
 }
 
+LifeCell* LifeGrid::getCell(int index){
+    return cells[index];
+}

@@ -26,7 +26,5 @@ namespace GCA{
             int id;
             static int ID;
     };
-
-    int Manipulator::ID = 0;
 }
 #endif

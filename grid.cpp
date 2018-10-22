@@ -13,9 +13,9 @@ namespace GCA{
         return cells;
     }
 
-    std::vector<Manipulator*> Grid::getManipulators(){
+/*    std::vector<Manipulator*> Grid::getManipulators(){
         return manipulators;
-    }
+    }*/
 
     Cell* Grid::getCell(int index){
         return cells[index];
@@ -25,9 +25,9 @@ namespace GCA{
         return cells[y*width+x];
     }
 
-    Manipulator* Grid::getManipulator(int index){
+/*    Manipulator* Grid::getManipulator(int index){
         return manipulators[index];
-    }
+    }*/
 
     int Grid::getWidth(){
         return width;

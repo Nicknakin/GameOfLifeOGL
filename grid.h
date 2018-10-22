@@ -4,7 +4,7 @@
 #include <iterator>
 #include <vector>
 #include "cell.h"
-#include "manipulator.h"
+//#include "manipulator.h"
 
 namespace GCA{
     class Grid {
@@ -17,12 +17,12 @@ namespace GCA{
 
             //Get and Set methods
             std::vector<Cell*> getCells();
-            std::vector<Manipulator*> getManipulators();
+//            std::vector<Manipulator*> getManipulators();
             
             Cell* getCell(int index);
             Cell* getCell(int y, int x);
 
-            Manipulator* getManipulator(int index);
+//            Manipulator* getManipulator(int index);
             
             int getWidth();
             int getHeight();
@@ -30,7 +30,7 @@ namespace GCA{
 
         protected:
             std::vector<Cell*> cells;
-            std::vector<Manipulator*> manipulators;
+//            std::vector<Manipulator*> manipulators;
             int width, height, size;
 
     };
