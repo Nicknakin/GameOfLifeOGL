@@ -34,7 +34,7 @@ int main(int argc, char** argv){
         //Create window with SFML and set framerate
         sf::RenderWindow window(sf::VideoMode(config.width,config.height), "SFML Project");
         window.setFramerateLimit(config.speed);
-        
+
         //Execution loop
         while (window.isOpen()) {
             window.clear();

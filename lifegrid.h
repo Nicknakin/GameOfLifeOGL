@@ -15,7 +15,9 @@ class LifeGrid: public GCA::Grid{
         LifeCell* getCell(int index);
 
     private:
+        void updateCells(int begin, int end);
         void calcSums(int start, int end);
+        
         std::vector<int> newSums{};
         std::vector<sf::Color> colors;
         std::vector<LifeCell*> cells;

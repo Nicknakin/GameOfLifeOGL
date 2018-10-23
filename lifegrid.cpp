@@ -34,20 +34,22 @@ LifeGrid::LifeGrid(int width, int height, int side, std::vector<sf::Color> color
 }
 
 void LifeGrid::update(){
-    for(int i = 0; i < cells.size(); i++){
-        if(cells[i]->getValue() > 0){
-            if(newSums[i] != 2 && newSums[i] != 3)
-                cells[i]->setValue(0);
-        } else{
-            if(newSums[i] == 3)
-                cells[i]->setValue(newSums[i]);
-        }    
-    }
-
-    std::fill(newSums.begin(), newSums.end(), 0);
-    
     std::vector<std::thread> activeThreads{};
     unsigned threads = std::thread::hardware_concurrency();
+    
+    if(threads == 0)
+        calcSums(0,cells.size());
+    else{
+        for(int i = 0; i < threads; i++){
+            activeThreads.push_back(std::thread(&LifeGrid::updateCells, this, i/threads*cells.size(), (i+1)/threads*cells.size()));
+        }
+    }
+    for(int i = 0; i < activeThreads.size(); i++){
+        activeThreads[i].join();
+    }
+
+    activeThreads.resize(0);
+
     if(threads == 0)
         calcSums(0,cells.size());
     else{
@@ -57,6 +59,19 @@ void LifeGrid::update(){
     }
     for(int i = 0; i < activeThreads.size(); i++){
         activeThreads[i].join();
+    }
+}
+
+void LifeGrid::updateCells(int begin, int end){
+    for(int i = begin; i < end; i++){
+        if(cells[i]->getValue() > 0){
+            if(newSums[i] != 2 && newSums[i] != 3)
+                cells[i]->setValue(0);
+        } else{
+            if(newSums[i] == 3)
+                cells[i]->setValue(newSums[i]);
+        }
+        newSums[i] = 0;
     }
 }
 
