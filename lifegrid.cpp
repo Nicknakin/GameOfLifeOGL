@@ -31,6 +31,7 @@ LifeGrid::LifeGrid(int width, int height, int side, std::vector<sf::Color> color
     for(int i = 0; i < activeThreads.size(); i++){
         activeThreads[i].join();
     }
+    activeThreads.resize(0);
 }
 
 void LifeGrid::update(){
