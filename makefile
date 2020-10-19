@@ -1,17 +1,37 @@
-CXX = g++
-oglflags = -lsfml-graphics -lsfml-window -lsfml-system -lpthread
+CXX=g++
+CXXFLAGS=-std=c++17 -Wall -I include/
+LDLIBS=-lsfml-graphics -lsfml-window -lsfml-system -lpthread
+SRC_DIR=./src
+OBJ_DIR=./obj
+BUILD_DIR=./build
 
-default: cell.o grid.o lifecell.o lifegrid.o main.o
-	$(CXX) -o GameOfLife main.o cell.o grid.o lifecell.o lifegrid.o $(oglflags)
+BRACKET_STYLE=java
 
-debug: main.o cell.o
-	$(CXX) -g -Wall -o DebugGameOfLife main.cpp cell.cpp grid.cpp lifegrid.cpp lifecell.cpp $(oglflags)
+OUTPUT=GameOfLife
 
-%.o: %.cpp %.h
-	$(CXX) -c $< $(oglflags)
+SRC_FILES := $(wildcard $(SRC_DIR)/*.cpp)
+OBJ_FILES := $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRC_FILES))
 
-run: default
-	./GameOfLife
+default: ${OBJ_FILES} 
+	${CXX} ${CXXFLAGS} $^ -o ${BUILD_DIR}/${OUTPUT} ${LDLIBS}
+
+preprocess: CXXFLAGS+=-E
+preprocess: default
+
+debug: CXXFLAGS+=-g 
+debug: clean default 
+
+docgen:
+	@doxygen
+	@firefox ./docs/html/index.html
+
+${OBJ_DIR}/%.o: ${SRC_DIR}/%.cpp
+	$(CXX) ${CXXFLAGS} -c -o $@ $< $(LDLIBS) 
+
+prettify:
+	find -type f \( -iname \*.h -o -iname \*.hpp -o -iname \*.cpp \) -exec astyle -n --style=${BRACKET_STYLE} {} \; | grep ^Formatted*
 
 clean:
-	rm -rf *.o ./GameOfLife ./DebugGameOfLife *.gch
+	-rm -rf ${BUILD_DIR}/*
+	-rm -rf ${OBJ_DIR}/*.o
+

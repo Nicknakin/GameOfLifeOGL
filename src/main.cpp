@@ -25,9 +25,6 @@ int main(int argc, char** argv){
  
         operators ops;
 
-        //Argument used to know whether the window has been resized.
-        bool resized = true;
-
         //Initialize the Grid of cells based on configs
         LifeGrid grid{config.width/config.sideLength, config.height/config.sideLength, config.sideLength, ops.colors, sf::Color{0,0,0}};
 
@@ -43,8 +40,6 @@ int main(int argc, char** argv){
             {
                 if (event.type == sf::Event::Closed)
                     window.close();
-                else if(event.type == sf::Event::Resized)
-                        resized = true;
             }
 
             for(int i = 0; i < grid.getSize(); i++){
